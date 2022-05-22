@@ -1,41 +1,43 @@
 const mongoose = require("mongoose");
+
 const { ObjectId } = mongoose.Schema;
 
 const userSchema = mongoose.Schema(
   {
     first_name: {
       type: String,
-      required: [true, "First Name is Required"],
+      required: [true, "first name is required"],
       trim: true,
       text: true,
     },
     last_name: {
       type: String,
-      required: [true, "Last Name is Required"],
+      required: [true, "last name is required"],
       trim: true,
       text: true,
     },
     username: {
       type: String,
-      required: [true, "Username is Required"],
+      required: [true, "username is required"],
       trim: true,
       text: true,
       unique: true,
     },
+
     email: {
       type: String,
-      required: [true, "Email is Required"],
+      required: [true, "email is required"],
       trim: true,
     },
     password: {
       type: String,
-      required: [true, "Password is Required"],
+      required: [true, "password is required"],
     },
     picture: {
       type: String,
       trim: true,
       default:
-        "https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/",
+        "https://www.logolynx.com/images/logolynx/b4/b4ef8b89b08d503b37f526bca624c19a.jpeg",
     },
     cover: {
       type: String,
@@ -43,7 +45,7 @@ const userSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      required: [true, "Gender is Required"],
+      required: [true, "gender is required"],
       trim: true,
     },
     bYear: {
@@ -65,31 +67,44 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    friends: {
-      type: Array,
-      default: [],
-    },
-    following: {
-      type: Array,
-      default: [],
-    },
-    followers: {
-      type: Array,
-      default: [],
-    },
-    requests: {
-      type: Array,
-      default: [],
-    },
+    friends: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
+    ],
+    followers: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
+    ],
+    requests: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
+    ],
     search: [
       {
         user: {
           type: ObjectId,
           ref: "User",
+          required: true,
+        },
+        createdAt: {
+          type: Date,
+          required: true,
         },
       },
     ],
-    detais: {
+    details: {
       bio: {
         type: String,
       },
@@ -116,7 +131,7 @@ const userSchema = mongoose.Schema(
       },
       relationship: {
         type: String,
-        enum: ["Single", "in a Relationship", "Married"],
+        enum: ["Single", "In a relationship", "Married", "Divorced"],
       },
       instagram: {
         type: String,
@@ -130,7 +145,7 @@ const userSchema = mongoose.Schema(
         },
         savedAt: {
           type: Date,
-          default: new Date(),
+          required: true,
         },
       },
     ],
